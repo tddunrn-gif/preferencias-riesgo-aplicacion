@@ -169,7 +169,6 @@ function renderResults(payload){
     'cercano a neutralidad':'En este rango, tu curva quedó cerca de la referencia que valora los resultados de manera lineal.'
   };
   $('result-description').textContent=descriptions[label];$('utility-table').innerHTML=payload.utilities.map(d=>`<div class="table-row"><span>${money(d.outcome)}</span><span>${d.utility.toFixed(2)}</span></div>`).join('');
-  $('consistency-note').innerHTML='<strong>Lectura:</strong> los tres fractiles dividen la escala de utilidad en cuatro tramos iguales. Las dos pruebas finales no intervinieron en la estimación.';
   $('save-status').textContent=state.saved?'Tu respuesta fue guardada correctamente.':'No se pudo confirmar el guardado remoto. Descargá el archivo para conservar una copia.';drawChart(payload.utilities);
 }
 
@@ -307,7 +306,7 @@ function renderDecisionTree(step,a){
   const useEu=step>=9,showSolved=step>=7,parts=['<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>'];
   parts.push('<rect x="38" y="485" width="26" height="26" class="decision-node"/>',svgText(28,468,'¿Estudiar?','tree-label'));
   parts.push('<path d="M64 498 C120 498 120 245 180 245" class="branch" marker-end="url(#arrow)"/>',svgText(87,352,`Sí · costo ${signed(2)}`,'tree-small'),'<circle cx="198" cy="245" r="14" class="chance-node"/>');
-  parts.push('<path d="M64 498 C150 498 210 830 350 830" class="branch" marker-end="url(#arrow)"/>',svgText(120,675,'No','tree-small'));
+  parts.push('<path d="M64 498 C150 498 210 730 350 730" class="branch" marker-end="url(#arrow)"/>',svgText(120,675,'No','tree-small'));
   if(showSolved){parts.push(svgText(74,387,useEu?`UE con estudio ${num(a.sampleNetEu,3)}`:`VE con estudio ${signed(a.evWithSampleGross-CASE.studyCost)}`,'tree-badge'),svgText(142,704,useEu?`UE sin estudio ${num(a.bestEu.value,3)}`:`VE sin estudio ${signed(a.bestEv.value)}`,'tree-badge'));}
   const contexts=[
     {name:'Informe favorable',prob:a.reports[0].marginal,pHigh:a.reports[0].posteriorHigh,y:100,best:useEu?a.conditionalNetEu[0].bestEuNet:a.conditional[0].bestEv,cost:2},
